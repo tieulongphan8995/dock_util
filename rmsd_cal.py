@@ -1,3 +1,6 @@
+from rdkit.Chem import rdFMCS,AllChem, Draw, PandasTools
+import math
+import numpy as np
 def get_inplace_rmsd (ref,target):
     
     r=rdFMCS.FindMCS([ref,target])
