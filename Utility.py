@@ -27,6 +27,18 @@ from rdkit.Chem import rdFMCS, AllChem, PandasTools
 from plip.exchange.report import BindingSiteReport
 from plip.structure.preparation import PDBComplex
 
+COLORS = ["red", "orange", "yellow", "lime", "green", "cyan", "teal", "blue", 
+          "violet", "purple", "pink", "gray", "brown", "white", "black"]
+
+BOND_DICT = {"hydrophobic": ["0x59e382", "GREEN"], 
+             "hbond": ["0x59bee3", "LIGHT BLUE"],
+             "waterbridge": ["0x4c4cff", "BLUE"], 
+             "saltbridge": ["0xefd033", "YELLOW"], 
+             "pistacking": ["0xb559e3", "PURPLE"], 
+             "pication": ["0xe359d8", "VIOLET"], 
+             "halogen": ["0x59bee3", "LIGHT BLUE"], 
+             "metal": ["0xe35959", "ORANGE"]}
+
 class Hide:
     def __enter__(self):
         self._original_stdout = sys.stdout
