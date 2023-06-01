@@ -4,28 +4,16 @@ import sys
 
 import ast
 import math
-import plip
 import timeit
 import shutil
 import py3Dmol
 import contextlib
 import xlsxwriter
 import urllib.request
-
 import numpy as np
 import pandas as pd
-
-from google.colab import drive, files
-from tqdm.notebook import tqdm
-from openbabel import pybel
-from Bio.PDB import PDBIO, PDBParser
 from rdkit import Chem
 from rdkit.Chem import rdFMCS, AllChem, PandasTools
-from plip.exchange.report import BindingSiteReport
-from plip.structure.preparation import PDBComplex
-
-
-
 
 # Docking result clustering
 def get_RMSD(ref, target):
