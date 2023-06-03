@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 from rdkit import Chem
 from rdkit.Chem import rdFMCS, AllChem, PandasTools
-
+import py3Dmol
 
 
 
@@ -77,3 +77,58 @@ def autodock_grid(coorList, scale=1):
               np.round(np.mean(range[2]), 3)]
     size = [min_len]*3
     return [center, size]
+
+def VIEW_GRID(inputP, inputE, focusRes, center, size=[10, 10, 10]):
+    # Variable
+    mview = py3Dmol.view(1000, 1500)
+
+    # Grid box
+    bxi, byi, bzi = center[0], center[1], center[2]
+    bxf, byf, bzf = size[0], size[1], size[2]
+    print(f"+ Center: X {center[0]}  Y {center[1]}  Z {center[2]}")
+    print(f"+ Size: W {size[0]}  H {size[1]}  D {size[2]}")
+    mview.addBox(
+        {"center":{"x":bxi, "y":byi, "z":bzi}, 
+        "dimensions": {"w":bxf, "h":byf, "d":bzf}, 
+        "color": "skyBlue", "opacity": 0.7})
+
+    # Protein model
+    count = 1
+    prot_model = count
+    print(f"+ Showing {os.path.basename(inputP)}")
+    molA = open(inputP, "r").read()
+    mview.addModel(molA, "pdb")
+    mview.setStyle(
+        {"model": prot_model},
+        {"cartoon": {"color": "white"}})
+    
+    # Experimental ligand model
+    count += 1
+    elig_model = count
+    print(f"+ Showing {os.path.basename(inputE)}")
+    molB = open(inputE, "r").read()
+    mview.addModel(molB, "pdb")
+    mview.setStyle(
+        {"model": elig_model},
+        {"stick": {"colorscheme": "greenCarbon"}})
+  
+    # Focus RES
+    if focusRes != "":
+        res = focusRes.split(",")
+        mview.addStyle(
+            {"and": [{"model": prot_model}, {"resi": res}]}, 
+            {"stick": {"colorscheme": "orangeCarbon", "radius": 0.15}})
+        mview.addResLabels(
+            {"and": [{"model": prot_model}, {"resi": res}]},
+            {"alignment": "bottomLeft",
+            "showBackground": False,
+            "inFront": True,
+            "fixed": False,
+            "fontSize": 14,
+            "fontColor": "0x000000",
+            "screenOffset": {"x": 15, "y": 15}})
+
+    print(f"")
+    mview.setBackgroundColor("0xFFFFFF")
+    mview.center({"model": elig_model})
+    mview.show()
