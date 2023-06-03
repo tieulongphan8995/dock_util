@@ -131,31 +131,31 @@ def VIEW_GRID(inputP, inputE, focusRes, center, size=[10, 10, 10]):
     mview.center({"model": elig_model})
     mview.show()
 
-  while True:
-      try:
-        from pymol import cmd
-        def getbox(selection='sele', extending = 6.0):
+while True:
+  try:
+    from pymol import cmd
+    def getbox(selection='sele', extending = 6.0):
 
-          ([minX, minY, minZ],[maxX, maxY, maxZ]) = cmd.get_extent(selection)
+      ([minX, minY, minZ],[maxX, maxY, maxZ]) = cmd.get_extent(selection)
 
-          minX = minX - float(extending)
-          minY = minY - float(extending)
-          minZ = minZ - float(extending)
-          maxX = maxX + float(extending)
-          maxY = maxY + float(extending)
-          maxZ = maxZ + float(extending)
+      minX = minX - float(extending)
+      minY = minY - float(extending)
+      minZ = minZ - float(extending)
+      maxX = maxX + float(extending)
+      maxY = maxY + float(extending)
+      maxZ = maxZ + float(extending)
 
-          SizeX = maxX - minX
-          SizeY = maxY - minY
-          SizeZ = maxZ - minZ
-          CenterX =  (maxX + minX)/2
-          CenterY =  (maxY + minY)/2
-          CenterZ =  (maxZ + minZ)/2
+      SizeX = maxX - minX
+      SizeY = maxY - minY
+      SizeZ = maxZ - minZ
+      CenterX =  (maxX + minX)/2
+      CenterY =  (maxY + minY)/2
+      CenterZ =  (maxZ + minZ)/2
 
-          cmd.delete('all')
+      cmd.delete('all')
 
-          return {'center_x':CenterX,'center_y': CenterY, 'center_z': CenterZ},{'size_x':SizeX,'size_y': SizeY,'size_z': SizeZ}
-        break
-      except:
-        print("No module Pymol")
-        break
+      return {'center_x':CenterX,'center_y': CenterY, 'center_z': CenterZ},{'size_x':SizeX,'size_y': SizeY,'size_z': SizeZ}
+    break
+  except:
+    print("No module Pymol")
+    break
