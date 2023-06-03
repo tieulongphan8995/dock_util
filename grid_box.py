@@ -4,8 +4,6 @@ import math
 import timeit
 import shutil
 import contextlib
-import xlsxwriter
-import urllib.request
 import numpy as np
 import pandas as pd
 from rdkit import Chem
@@ -133,25 +131,31 @@ def VIEW_GRID(inputP, inputE, focusRes, center, size=[10, 10, 10]):
     mview.center({"model": elig_model})
     mview.show()
 
-    def getbox(selection='sele', extending = 6.0):
-    
-        ([minX, minY, minZ],[maxX, maxY, maxZ]) = cmd.get_extent(selection)
+  while True:
+      try:
+        from pymol import cmd
+        def getbox(selection='sele', extending = 6.0):
 
-        minX = minX - float(extending)
-        minY = minY - float(extending)
-        minZ = minZ - float(extending)
-        maxX = maxX + float(extending)
-        maxY = maxY + float(extending)
-        maxZ = maxZ + float(extending)
+          ([minX, minY, minZ],[maxX, maxY, maxZ]) = cmd.get_extent(selection)
 
-        SizeX = maxX - minX
-        SizeY = maxY - minY
-        SizeZ = maxZ - minZ
-        CenterX =  (maxX + minX)/2
-        CenterY =  (maxY + minY)/2
-        CenterZ =  (maxZ + minZ)/2
+          minX = minX - float(extending)
+          minY = minY - float(extending)
+          minZ = minZ - float(extending)
+          maxX = maxX + float(extending)
+          maxY = maxY + float(extending)
+          maxZ = maxZ + float(extending)
 
-        cmd.delete('all')
+          SizeX = maxX - minX
+          SizeY = maxY - minY
+          SizeZ = maxZ - minZ
+          CenterX =  (maxX + minX)/2
+          CenterY =  (maxY + minY)/2
+          CenterZ =  (maxZ + minZ)/2
 
+          cmd.delete('all')
 
-        return {'center_x':CenterX,'center_y': CenterY, 'center_z': CenterZ},{'size_x':SizeX,'size_y': SizeY,'size_z': SizeZ}
+          return {'center_x':CenterX,'center_y': CenterY, 'center_z': CenterZ},{'size_x':SizeX,'size_y': SizeY,'size_z': SizeZ}
+        break
+      except:
+        print("No module Pymol")
+        break
