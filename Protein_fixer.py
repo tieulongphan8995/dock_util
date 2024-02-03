@@ -1,7 +1,6 @@
 from pdbfixer import PDBFixer
 from openmm.app import PDBFile
-from pdbfixer import PDBFixer
-from openmm.app import PDBFile
+import MDAnalysis as mda
 def fix_protein(filename='',addHs_pH=7.4,output='',try_renumberResidues=False):
 
     fix = PDBFixer(filename=filename)
@@ -23,8 +22,7 @@ def fix_protein(filename='',addHs_pH=7.4,output='',try_renumberResidues=False):
             for idx,res in enumerate(from_fix.residues):
                 res.resid = resNum[idx]
 
-            save=PDB.PDBWriter(filename=output)
-            save.write(from_fix)
-            save.close()
+            with mda.Writer("protein.pdb") as pdb:
+                pdb.write(from_fix)
         except Exception:
             print('Not possible to renumber residues, check excepton for extra details')
