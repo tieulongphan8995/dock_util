@@ -23,6 +23,6 @@ def fix_protein(filename='',addHs_pH=7.4,output='',try_renumberResidues=False):
                 res.resid = resNum[idx]
 
             with mda.Writer(output) as pdb:
-                pdb.write(from_fix)
+                pdb.write(from_fix.select_atoms("protein"))
         except Exception:
             print('Not possible to renumber residues, check excepton for extra details')
